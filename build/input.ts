@@ -8,8 +8,7 @@ const input: string[] = []
 
   console.log('allEntry::', allEntry)
   allEntry.forEach((entry: string) => {
-    const srcArr = entry.replace('./', '')
-    input.push(resolve(`${srcArr}`))
+    input.push(resolve(entry))
   })
   console.log('input::', input)
 })()
