@@ -1,8 +1,8 @@
 module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
+    // type枚举
     'type-enum': [
-      // type枚举
       2,
       'always',
       [

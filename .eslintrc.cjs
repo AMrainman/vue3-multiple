@@ -19,5 +19,13 @@ module.exports = {
         ignores: ['index']
       }
     ]
-  }
+  },
+  // 定义json规则，防止package.json报lint错
+  overrides: [
+    {
+      files: '*.json',
+      parser: 'jsonc-eslint-parser',
+      rules: {}
+    }
+  ]
 }
