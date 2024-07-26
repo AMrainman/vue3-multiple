@@ -7,6 +7,7 @@ import { getPlugins } from './build/plugins'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
+  console.log('argv::', process.argv)
   const plugins = getPlugins(mode)
 
   return {

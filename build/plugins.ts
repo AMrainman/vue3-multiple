@@ -8,8 +8,8 @@ import { viteVConsole } from 'vite-plugin-vconsole'
 import { mainEntry } from './entry'
 import UnoCSS from 'unocss/vite'
 
-const isReport = process.env.REPORT === 'true'
 export const getPlugins = (mode: string) => {
+  const isReport = process.argv.includes('--report')
   return [
     vue(),
     vueJsx(),
