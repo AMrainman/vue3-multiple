@@ -11,13 +11,18 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "lint-staged": "lint-staged",
+    "prepare": "husky",
+    "commitlint": "commitlint --config commitlint.config.js -e -V"
   },
   "dependencies": {
     "pinia": "^2.1.7",
     "vue": "^3.4.29"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
     "@rushstack/eslint-patch": "^1.8.0",
     "@tsconfig/node20": "^20.1.4",
     "@types/jsdom": "^21.1.7",
@@ -34,7 +39,9 @@
     "eslint-plugin-vue": "^9.23.0",
     "fs": "^0.0.1-security",
     "glob": "^11.0.0",
+    "husky": "^9.1.2",
     "jsdom": "^24.1.0",
+    "lint-staged": "^15.2.7",
     "npm-run-all2": "^6.2.0",
     "prettier": "^3.2.5",
     "rollup-plugin-visualizer": "^5.12.0",
@@ -48,5 +55,18 @@
     "vite-plugin-vconsole": "^2.1.1",
     "vitest": "^1.6.0",
     "vue-tsc": "^2.0.21"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,vue,jsx,tsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
   }
 }
