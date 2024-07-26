@@ -5,11 +5,11 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import viteCompression from 'vite-plugin-compression'
 import { viteVConsole } from 'vite-plugin-vconsole'
-import { input } from './input'
+import { mainEntry } from './entry'
 import UnoCSS from 'unocss/vite'
 
 const isReport = process.env.REPORT === 'true'
-export const getPlugins = (mode: any) => {
+export const getPlugins = (mode: string) => {
   return [
     vue(),
     vueJsx(),
@@ -29,16 +29,15 @@ export const getPlugins = (mode: any) => {
     Components({
       resolvers: []
     }),
-    Components(),
     viteCompression({
       ext: '.gz',
       algorithm: 'gzip',
       deleteOriginFile: false
     }),
     viteVConsole({
-      entry: input,
-      localEnabled: mode !== 'production',
-      enabled: mode !== 'production',
+      entry: mainEntry,
+      localEnabled: !['production', 'development'].includes(mode),
+      enabled: !['production', 'development'].includes(mode),
       config: {
         maxLogNumber: 1000,
         theme: 'dark'

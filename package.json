@@ -49,6 +49,7 @@
     "unocss": "^0.61.5",
     "unplugin-auto-import": "^0.18.2",
     "unplugin-vue-components": "^0.27.3",
+    "vconsole": "^3.15.1",
     "vite": "^5.3.1",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-vconsole": "^2.1.1",
