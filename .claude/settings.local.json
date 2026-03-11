@@ -8,7 +8,23 @@
       "Bash(cd \"D:\\\\project\\\\claude\\\\vue3-multiple\" && pnpm run lint)",
       "Bash(cd \"D:\\\\project\\\\claude\\\\vue3-multiple\" && pnpm exec prettier --check .)",
       "Bash(cd \"D:\\\\project\\\\claude\\\\vue3-multiple\" && pnpm exec prettier --write .)",
-      "Bash(cd \"D:\\\\project\\\\claude\\\\vue3-multiple\" && pnpm exec prettier --check . 2>&1 | tail -5)"
+      "Bash(cd \"D:\\\\project\\\\claude\\\\vue3-multiple\" && pnpm exec prettier --check . 2>&1 | tail -5)",
+      "Bash(npx prettier:*)",
+      "Bash(npx eslint:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh pr:*)",
+      "Bash(winget install:*)",
+      "Bash(gh --version)",
+      "Bash(gh auth:*)",
+      "Bash(where.exe gh:*)",
+      "Bash(\"C:/Program Files/GitHub CLI/gh.exe\" auth login)",
+      "Bash(echo \"ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" | \"C:/Program Files/GitHub CLI/gh.exe\" auth login --with-token)",
+      "Bash(\"C:/Program Files/GitHub CLI/gh.exe\" auth status)",
+      "Bash(\"C:/Program Files/GitHub CLI/gh.exe\" repo view)",
+      "Bash(\"C:/Program Files/GitHub CLI/gh.exe\" pr list --head release --state open)",
+      "Bash(git reset:*)"
     ]
   }
 }
