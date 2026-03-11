@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"D:\\\\project\\\\claude\\\\vue3-multiple\" && Test-Path \"package.json\")",
+      "Bash(cd \"D:\\\\project\\\\claude\\\\vue3-multiple\" && npx eslint . --ext .js,.jsx,.ts,.tsx,.vue)",
+      "Bash(cd \"D:\\\\project\\\\claude\\\\vue3-multiple\" && npx prettier --check .)",
+      "Bash(cd \"D:\\\\project\\\\claude\\\\vue3-multiple\" && pnpm i)",
+      "Bash(cd \"D:\\\\project\\\\claude\\\\vue3-multiple\" && pnpm run lint)",
+      "Bash(cd \"D:\\\\project\\\\claude\\\\vue3-multiple\" && pnpm exec prettier --check .)",
+      "Bash(cd \"D:\\\\project\\\\claude\\\\vue3-multiple\" && pnpm exec prettier --write .)",
+      "Bash(cd \"D:\\\\project\\\\claude\\\\vue3-multiple\" && pnpm exec prettier --check . 2>&1 | tail -5)"
+    ]
+  }
+}
