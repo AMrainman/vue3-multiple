@@ -10,6 +10,16 @@ description: >
 compatibility:
   tools: [PowerShell]
   requires: [git, node, eslint, prettier, gh CLI or GitHub API token]
+parameters:
+  - name: auto
+    description: '自动模式，跳过所有用户确认步骤，直接执行全部操作'
+    default: false
+  - name: skip-lint
+    description: '跳过 lint 检查和修复步骤'
+    default: false
+  - name: skip-pr
+    description: '推送后跳过创建 PR'
+    default: false
 ---
 
 # Dev Workflow Skill
@@ -17,6 +27,31 @@ compatibility:
 自动化完整的 GitHub 开发流程：lint → fix → commit → push → Pull Request。
 
 > 所有命令基于 **Windows PowerShell**。git 相关命令在 CMD 中同样适用，API 调用部分需使用 PowerShell。
+
+## 使用方式
+
+- **交互模式（默认）**：在每个关键步骤暂停，等待用户确认
+- **自动模式（`auto: true`）**：跳过所有确认，一键执行完整流程
+
+### 自动模式调用示例
+
+当用户说 "直接帮我推代码"、"一键提交"、"快速走完流程" 时，使用 `auto: true` 参数：
+
+```
+skill: dev-workflow
+auto: true
+```
+
+---
+
+## 执行逻辑（自动模式 vs 交互模式）
+
+| 步骤        | 交互模式       | 自动模式         |
+| ----------- | -------------- | ---------------- |
+| Lint 检查后 | 询问是否修复   | 直接执行 `--fix` |
+| Commit 信息 | 展示供确认修改 | 直接提交         |
+| Push 前     | 确认推送       | 直接推送         |
+| 创建 PR 前  | 询问是否创建   | 直接创建 PR      |
 
 ---
 
@@ -109,7 +144,9 @@ npx eslint . --ext .js,.jsx,.ts,.tsx
 
 ## 第 4 步 — 自动修复
 
-询问用户："发现 X 个 lint 问题和 Y 个格式问题，是否自动修复？[Y/n]"
+**交互模式：** 询问用户："发现 X 个 lint 问题和 Y 个格式问题，是否自动修复？[Y/n]"
+
+**自动模式：** 直接执行修复，仅输出摘要。
 
 ```powershell
 # 修复 Prettier 格式
@@ -180,7 +217,8 @@ git diff --cached -- . ':(exclude)*.lock' ':(exclude)package-lock.json'
 
 1. 分析已暂存的 diff
 2. 提议一条 commit 信息
-3. 展示给用户，供其确认或修改
+3. **交互模式：** 展示给用户，供其确认或修改
+   **自动模式：** 直接使用生成的 commit 信息提交
 
 ```powershell
 git commit -m "<类型>(<范围>): <描述>"
@@ -265,7 +303,9 @@ Invoke-RestMethod -Method Post `
 - [ ] 无 lint 错误
 ```
 
-提交前让用户审阅并编辑描述内容。
+**交互模式：** 提交前让用户审阅并编辑描述内容。
+
+**自动模式：** 直接使用生成的描述创建 PR，不等待确认。
 
 **Token 处理：**
 
@@ -297,7 +337,20 @@ Invoke-RestMethod `
 
 ## 常用快捷场景
 
-当用户说"直接帮我推代码"时，执行完整流程但保持简洁：
+### 自动模式（`auto: true`）
+
+当用户说 "直接帮我推代码"、"一键提交"、"快速走完流程" 时，执行完整流程且**不等待确认**：
+
+1. 预检查 → 通过则静默继续
+2. Lint + 修复 → 有 package.json 时自动执行
+3. 暂存全部 → `git add .`
+4. 生成 commit 信息 → 直接使用，不确认
+5. 推送 → 直接执行
+6. 创建 PR → 直接创建（除非 `skip-pr: true`）
+
+### 交互模式（默认）
+
+当用户说 "帮我推代码" 时，执行完整流程但需要确认：
 
 1. 预检查 → 通过则静默
 2. Lint + 修复 → 有 package.json 时自动执行

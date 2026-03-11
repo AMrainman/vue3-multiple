@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matrix Code Rain Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #000;
+        overflow: hidden;
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="matrix"></canvas>
+
+    <script>
+      const canvas = document.getElementById('matrix')
+      const ctx = canvas.getContext('2d')
+
+      // 设置 Canvas 全屏
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+
+      // 监听屏幕大小改变
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        initDrops() // 重新初始化雨滴列数
+      })
+
+      // 核心配置
+      const fontSize = 16
+      // 经典的片假名字符集
+      const chars =
+        'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+      let drops = []
+      let columns = 0
+
+      // 初始化雨滴位置数组
+      function initDrops() {
+        columns = canvas.width / fontSize
+        drops = []
+        for (let i = 0; i < columns; i++) {
+          // 初始化为 1，避免开局全屏空白
+          drops[i] = 1
+        }
+      }
+
+      // 绘图主函数
+      function draw() {
+        // 关键：用半透明黑色覆盖，制造拖尾效果
+        // 调整 0.05 可以改变拖尾的长度
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+        // 设置字体样式
+        ctx.fillStyle = '#0F0' // 荧光绿
+        ctx.font = fontSize + 'px arial' // 使用系统自带支持片假名的字体即可
+
+        // 遍历每一列
+        for (let i = 0; i < drops.length; i++) {
+          // 随机字符
+          const text = chars.charAt(Math.floor(Math.random() * chars.length))
+
+          const x = i * fontSize
+          const y = drops[i] * fontSize
+
+          ctx.fillText(text, x, y)
+
+          // 边界判断与随机重置
+          // Math.random() > 0.975 增加了随机性，让雨滴不是同时回到顶部
+          if (y > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0
+          }
+
+          // y坐标递增
+          drops[i]++
+        }
+      }
+
+      // 启动！
+      initDrops()
+      // 33ms 大约是 30fps，这种复古特效不需要 60fps
+      setInterval(draw, 33)
+    </script>
+  </body>
+</html>
